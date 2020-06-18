@@ -7,7 +7,7 @@ import java.util.Map;
 public class Fatura {
     private ArrayList<ProduktIZgjedhur> produktet;
 
-    private double totaliFillim;
+    private double totali;
     private double totaleRregull1;
     private double totaleRregull2;
 
@@ -19,12 +19,12 @@ public class Fatura {
 
     public void setTotaliFillim() {
         for(int i=0;i<=produktet.size()-1;i++) {
-            totaliFillim+=produktet.get(i).getCmimi()*produktet.get(i).getNr();
+            totali +=produktet.get(i).getCmimi()*produktet.get(i).getNr();
         }
     }
 
-    public double getTotaliFillim() {
-        return totaliFillim;
+    public double getTotali() {
+        return totali;
     }
 
 
@@ -66,8 +66,9 @@ public class Fatura {
             }
             totaleRregull1+=produktet.get(i).getUlja()*produktet.get(i).getNr();
         }
-        totaliFillim=totaliFillim-totaleRregull1;
-        System.out.println(totaliFillim);
+        totali = totali -totaleRregull1;
+        System.out.println("U be nje ulje prej "+totaleRregull1+"  nga ulja per cmim per secilin produkt. Totali pas uljes:"+totali);
+
     }
 
     public void llogaritUlje2( Rules rregullat) {
@@ -88,17 +89,19 @@ public class Fatura {
             produktet.get(i).setUlja(vleraPara,2);
             totaleRregull2+=produktet.get(i).getUlja()*produktet.get(i).getNr();
         }
-        System.out.println(totaliFillim-totaleRregull2);
-        totaliFillim=totaliFillim-totaleRregull2;
+        totali = totali -totaleRregull2;
+        System.out.println("U be nje ulje prej "+totaleRregull2+"  nga ulja me perqindje per secilin produkt. Totali pas uljes:"+totali);
+
     }
 
     public void llogaritUlje3(Rules rregullat) {
+        double totaliPara=totali;
         double vleraPara=0;
         Iterator hmIterator = rregullat.getDiscountPerBundle().entrySet().iterator();
         while (hmIterator.hasNext()) {
             Map.Entry mapElement = (Map.Entry)hmIterator.next();
             double vlera = (double)mapElement.getKey();
-            if(totaliFillim<vlera)
+            if(totali <vlera)
                 break;
             else{
                 if((double)mapElement.getValue()>=vleraPara)
@@ -106,8 +109,8 @@ public class Fatura {
                 continue;
             }
         }
-            totaliFillim=totaliFillim-vleraPara;
-        System.out.println(totaliFillim);
+            totali = totali -vleraPara;
+        System.out.println("U be nje ulje prej "+vleraPara+" sepse kishit nje total prej "+totaliPara+". Totali pas uljes:"+totali);
     }
 
     public void llogaritUlje4(Rules rregullat) {
@@ -120,16 +123,15 @@ public class Fatura {
         while (hmIterator.hasNext()) {
             Map.Entry mapElement = (Map.Entry)hmIterator.next();
             double vlera = (double)mapElement.getKey();
-            if(nr<vlera)
-            { break;}
-            else{
-                if((double)mapElement.getValue()>=vleraPara)
-                vleraPara=(double)mapElement.getValue();
-                continue;
+            //System.out.println(vlera);
+                if((nr>=vlera)&&((double)mapElement.getValue()>=vleraPara))
+               { vleraPara=(double)mapElement.getValue();
+                continue;}
             }
-        }
-        totaliFillim=totaliFillim-vleraPara;
-        System.out.println(totaliFillim);
+
+        totali = totali -vleraPara;
+        System.out.println("U be nje ulje prej "+vleraPara+" sepse kishit "+nr+" produkte. Totali pas uljes:"+totali);
 
     }
 }
+
