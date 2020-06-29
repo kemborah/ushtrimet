@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Task 7 Part 2</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.js" type="text/javascript"></script>
+	<script type="text/javascript">
+
+	function getBaseLog(x, y) {
+  return Math.log(y) / Math.log(x);
+}
+
+
+
+$(function() {
+  $("form[name='form1']").validate({
+    rules: {
+      mortgage:{
+      	required: true,
+      	digits: true
+      },
+      interest:{
+      	required: true
+      },
+      nYears:{
+      	required: true
+      }
+    },
+
+
+    messages: {
+      mortgage: {
+        required: "Please provide the amount of the mortgage"
+      },
+      interest: {
+        required: "Please provide the interest rate"
+      },
+      nYears: {
+        required: "Please provide the number of years"
+      },
+
+     
+    submitHandler: function(form) {
+    	 $("#demo").html("$"+mPay);
+ 	      form.submit();
+    }
+  }
+});
+
+   $("form[name='form2']").validate({
+    rules: {
+      mortgage:{
+      	required: true,
+      	digits: true
+      },
+      interest:{
+      	required: true
+      },
+      mPay:{
+      	required: true
+      }
+    },
+
+
+    messages: {
+      mortgage: {
+        required: "Please provide the amount of the mortgage"
+      },
+      interest: {
+        required: "Please provide the interest rate"
+      },
+      mPay: {
+        required: "Please provide the monthly payment"
+      },
+
+     
+    submitHandler: function(form) {
+    	    form.submit();
+    }
+  }
+});
+
+
+
+ $("#form1").submit(function(){
+		var mortgage = parseFloat($("#mortgage").val());
+ 	 	var interest = parseFloat($("#interest").val());
+ 	 	var nYears = parseInt($("#nYears").val());
+ 	 	var nMonths = nYears*12;
+ 	
+ 	 	var x = 1 + interest;
+ 	 	x = Math.pow(x,nMonths);
+ 	 
+ 	 	var mPay=mortgage*x*interest/(x-1);
+ 	
+ 	 	var total = nMonths * mPay;
+ 	 
+ 	   $("#demo").html("$"+mPay);
+ 	   $("#demo1").html("$"+total);
+ 	   if(total>=0.4*mortgage+mortgage)
+ 	     {
+ 	     	$("#demo4").html("total payment is 40% bigger than the mortgage amount");
+ 	     }
+ 	
+});
+
+ $("#form2").submit(function(){
+
+ 	var mortgage = parseFloat($("#mortgage2").val());
+ 	var interest = parseFloat($("#interest2").val());
+ 	var mPay = parseInt($("#mPay2").val());
+    var x = 1+interest;
+    var y = mPay/(mPay-mortgage*interest);
+    var nMonths = getBaseLog(x,y);
+    var total = nMonths * mPay;
+
+   
+  $("#demo2").html(nMonths+" months");
+  $("#demo3").html("$"+total);
+   if(total>=0.4*mortgage+mortgage)
+    {
+    	$("#demo5").html("total payment is 40% bigger than the mortgage amount");
+    }
+});
+});
+
+	</script>
+</head>
+<body>
+
+	<form action="#" name="form1" id="form1">
+		<p> Mode 1 </p>
+		Amount of the mortgage <input type="text" name="mortgage" id="mortgage"><br>
+		Interest rate <input type="text" name="interest" id="interest"><br>
+	    Number of years for the mortgage to be payed back <input type="number" name="nYears" id="nYears"><br>
+		<button id="btn1" type="submit">Calculate monthly payment & total payment</button>
+		<p id="demo"></p>
+		<p id="demo1"></p>
+		<p id="demo4"></p>
+	</form>
+
+	<form action="#" name="form2" id="form2">
+		<p> Mode 2 </p>
+		Amount of the mortgage <input type="text"  name="mortgage2" id="mortgage2"><br>
+		Interest rate <input type="text"  name="interest2" id="interest2"><br>
+	    Monthly Payment <input type="text" name="mPay2" id="mPay2"><br>
+		<button id="btn2" type="submit">Calculate number of months & total payment</button>
+		<p id="demo2"></p>
+		<p id="demo3"></p>
+		<p id="demo5"></p>
+</form>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Task 7
+	</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.js" type="text/javascript"></script>
+	<script>
+$(function() {
+  $("form[name='payment']").validate({
+    rules: {
+      cardNo:{
+      	required: true,
+      	minlength: 12,
+      	maxlength: 16
+      },
+      cardExp:{
+      	required: true,
+      	greaterThan: true,
+      },
+      cvv:{
+      	required: true,
+      	minlength: 3,
+      	maxlength: 4
+      },
+      zip:{
+      	required: true,
+      	digits: true,
+      	minlength: 5,
+      	maxlength: 5
+      },
+      promo:{
+      	required: false,
+      	promoCheck: true
+      }   
+    },
+
+
+    messages: {
+      cardNo: {
+        required: "Please provide a cardNo",
+        minlength: "cardNo INVALID",
+        maxlength: "cardNo INVALID"
+      },
+      cardExp: {
+        required: "Please provide an expiration date",
+      },
+      cvv: {
+        required: "Please provide your cvv",
+      },
+      zip: {
+        required: "Please provide your zip code",
+      },
+      promo: {
+        minlength: "Promotion code not valid"
+      },
+     
+    submitHandler: function(form) {
+      form.submit();
+    }
+  }
+});
+
+jQuery.validator.addMethod("greaterThan", 
+function(value, element) {
+
+    if (!/Invalid|NaN/.test(new Date(value))) {
+        return new Date(value) > Date.now();
+    }
+
+    return isNaN(value) 
+        || (Number(value) > Number( Date.now())); 
+},'Must be greater than today\'s date.');
+
+jQuery.validator.addMethod("promoCheck", function(value, element) {
+  return this.optional( element ) || /^[a-zA-Z0-9]{8}$/.test( value );
+}, 'Please enter a valid promo code.');
+});
+
+</script>
+</head>
+<body>
+	<form action="#" name="payment">
+		Card Number <input type="text" name="cardNo"><br>
+		Exp Date <input type="month" name="cardExp"><br>
+		CVV <input type="text" name="cvv"><br>
+		ZIP <input type="text" name="zip"><br>
+		Promo Code<input type="text" name="promo"><br>
+		<button type="submit">Pay</button>
+	</form>
+</body>
+</html>
