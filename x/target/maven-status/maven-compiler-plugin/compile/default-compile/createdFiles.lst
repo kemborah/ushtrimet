@@ -1,0 +1,11 @@
+com\sample\Connection.class
+com\sample\Edit.class
+com\sample\NewInventory.class
+com\sample\ProductCatalog.class
+com\sample\Login.class
+com\sample\RemoveInventory.class
+com\sample\Checkout.class
+com\sample\EditInventory.class
+com\sample\Logout.class
+com\sample\Remove.class
+com\sample\Buying.class
