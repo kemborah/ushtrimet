@@ -1,0 +1,4 @@
+com\sample\repository\SubjectRepository.class
+com\sample\controller\SubjectController.class
+com\sample\Application.class
+com\sample\model\Subject.class
